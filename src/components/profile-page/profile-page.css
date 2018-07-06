@@ -1,0 +1,133 @@
+body,
+h3,
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.profile-cover-section {
+    background: #9053c7;
+    background: -webkit-linear-gradient(-135deg, #c850c0, #01DFA5);
+    background: -o-linear-gradient(-135deg, #c850c0, #01DFA5);
+    background: -moz-linear-gradient(-135deg, #c850c0, #01DFA5);
+    background: linear-gradient(-135deg, #c850c0, #01DFA5);
+    height: 250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 20px 0;
+    color: white;
+}
+
+.profile-cover-section button {
+    border: 0;
+    background-color: transparent;
+    color: white;
+    font-size: 1.17em;
+    border-bottom: 2px solid white;
+    font-weight: 600;
+}
+
+.user-info-header {
+    background-color: #fbfbfb;
+    display: flex;
+    height: 100px;
+    position: relative;
+    top: -100px;
+    color: #7f7f7f;
+}
+
+.user-info-header ul {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.user-info-header h4 {
+    margin: 15px 20px 20px;
+}
+
+.user-info-header li {
+    list-style: none;
+    margin-right: 30px;
+}
+
+.user-info-header img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    position: relative;
+    top: -50px;
+    margin-left: 10px;
+}
+
+.info-header-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.user-info {
+    background-color: #fbfbfb;
+}
+
+.user-timeline {
+    position: relative;
+    top: -100px;
+    background-color: #fff;
+}
+
+.timeline-newpost {
+    padding: 20px 40px;
+    border: 1px solid #f4f4f4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.timeline-newpost input {
+    height: 35px;
+    width: 85%;
+    padding: 0 10px;
+}
+
+.timeline-newpost button {
+    height: 39px;
+    width: 10%;
+    border-radius: 25px;
+    background: #57b846;
+    color: #fff;
+    text-transform: uppercase;
+    border: 0;
+    cursor: pointer;
+}
+
+.timeline-allposts li {
+    border: 1px solid #f4f4f4;
+    padding: 20px 25px;
+    list-style: none;
+    display: flex;
+    flex-direction: row; 
+}
+
+.timeline-allposts li img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.timeline-post-text{
+    padding: 0 20px 0;
+    color: #7f7f7f;
+}
+
+.timeline-post-text h5{
+    margin-top: 0px;
+}

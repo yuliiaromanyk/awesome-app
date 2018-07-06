@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./firebase";
-import Home from "./Home";
 import logo from './logo.svg';
 import './App.css';
+import ProfilePage from './components/profile-page/profile.page';
 
 class App extends Component {
     state = {
@@ -23,7 +23,7 @@ class App extends Component {
       } = this.props;
       const { email, password } = this.state;
       if (user) {
-        return <Home user={user} error={error} signOut={signOut} />;
+      return <ProfilePage user={user} error={error} signOut={signOut} />;
       }
       return (
         <div>
@@ -79,7 +79,6 @@ class App extends Component {
           </form>
           <br />
           <button onClick={signInWithGoogle}>Signin with Google</button> <br />
-      
         </div>
       );
     }
