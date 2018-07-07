@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./firebase";
 import Home from "./Home";
+import logo from './logo.svg';
 import './App.css';
+import ProfilePage from './components/profile-page/profile.page';
 
 import PostsPage from './pages/PostsPage/PostsPage';
 
@@ -24,7 +26,7 @@ class App extends Component {
       } = this.props;
       const { email, password } = this.state;
       if (user) {
-        return <Home user={user} error={error} signOut={signOut} />;
+      return <ProfilePage user={user} error={error} signOut={signOut} />;
       }
       return (
         <div>
