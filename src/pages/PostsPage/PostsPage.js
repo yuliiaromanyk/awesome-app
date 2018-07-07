@@ -2,7 +2,6 @@ import React from 'react';
 
 import NewPostForm from '../../components/NewPostForm/NewPostForm';
 import Post from '../../components/Post/Post';
-
 import '../PostsPage/PostsPage.css';
 
 export default class PostsPage extends React.Component {
@@ -12,14 +11,14 @@ export default class PostsPage extends React.Component {
       posts: [ ...state.posts, post ]
     }));
   }
+
   render() {
     return (
       <section>
-        <header className="profile-cover-section">
+        <header className="Postspage-header">
           <h3>My social network</h3>
-          <button>Sign Out</button>
+          <button onClick={this.props.signOut}>Sign Out</button>
         </header>
-
 
         <div className="posts-wrapper">
           <div className="posts-list">
@@ -27,7 +26,7 @@ export default class PostsPage extends React.Component {
           </div>
           <div className="posts-list">
               { this.state.posts.map((post, i) => (
-                  <Post key={ i } post={ post } />
+                  <Post key={ i } user={this.props.user} post={ post } />
               ))}
           </div>
         </div>

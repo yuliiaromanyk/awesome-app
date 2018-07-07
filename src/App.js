@@ -14,8 +14,6 @@ class App extends Component {
       password: `password`
     };
     render() {
-      // console.log(this.props);
-  
       const {
         signInWithEmail,
         signUpWithEmail,
@@ -26,7 +24,7 @@ class App extends Component {
       } = this.props;
       const { email, password } = this.state;
       if (user) {
-      return <ProfilePage user={user} error={error} signOut={signOut} />;
+      return <PostsPage user={user} error={error} signOut={signOut} />;
       }
       return (
         <div>

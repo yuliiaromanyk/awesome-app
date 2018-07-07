@@ -7,8 +7,12 @@
   flex-direction: column;
   color: #7f7f7f;
   margin-left: 15%;
+  width: 930px;
 }
-.UserName
+
+.Post-posts img
 {
-  margin-left: 5%;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
