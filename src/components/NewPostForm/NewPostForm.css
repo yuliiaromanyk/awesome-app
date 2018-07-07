@@ -1,0 +1,29 @@
+.NewPostForm-newPost
+{
+  padding: 20px 40px;
+  border: 1px solid #f4f4f4;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 900px;
+  margin-left: 15%;
+  box-shadow: 0 6px 4px -4px rgba(0, 0, 0, .2);
+}
+.NewPostForm-textline
+{
+  height: 35px;
+  width: 85%;
+  padding: 0 10px;
+  font: 100% sans-serif;
+}
+.NewPostForm-newPost button
+{
+  height: 39px;
+  width: 10%;
+  border-radius: 25px;
+  background: #57b846;
+  color: #fff;
+  text-transform: uppercase;
+  border: 0;
+  cursor: pointer;
+}

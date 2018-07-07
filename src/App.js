@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./firebase";
+
+import Home from "./Home";
 import logo from './logo.png';
+
 import './App.css';
 import ProfilePage from './components/profile-page/profile.page';
+
+import PostsPage from './pages/PostsPage/PostsPage';
 
 class App extends Component {
    
     render() {
-   
       const {
         signInWithGoogle,
         user,
@@ -34,7 +38,7 @@ class App extends Component {
         </div>
       );
     }
-  }
+  }   
   
   const authConfig = {
     email: {
