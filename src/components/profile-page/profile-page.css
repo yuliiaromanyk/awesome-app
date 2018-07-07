@@ -10,6 +10,19 @@ ul {
     margin: 0 auto;
 }
 
+.user-timeline {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.aside-users {
+    grid-column: 1;
+}
+
+.div-post-content {
+    grid-column: 2;
+}
+
 .profile-cover-section {
     background: #9053c7;
     background: -webkit-linear-gradient(-135deg, #c850c0, #01DFA5);
@@ -123,11 +136,19 @@ ul {
     border-radius: 50%;
 }
 
-.timeline-post-text{
+.timeline-post-text {
     padding: 0 20px 0;
     color: #7f7f7f;
 }
 
-.timeline-post-text h5{
+.timeline-post-text h5 {
     margin-top: 0px;
+}
+
+.section-profile {
+    font-family: 'Lobster', cursive;
+}
+
+.li-navigation {
+    cursor: pointer;
 }
