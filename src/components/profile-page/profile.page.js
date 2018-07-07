@@ -1,9 +1,21 @@
 import React from 'react';
+import withFirebaseAuth from "react-auth-firebase";
+import firebase from "./../../firebase";
 import './profile-page.css';
 import App from "./../../App";
 
 const ProfilePage = props => {
     const { user, signOut, error } = props;
+
+
+    var posts = firebase.database().ref('/users').child(user.uid).child('posts');
+    function p(){
+        var text = document.getElementById('try').value;
+        posts.push({
+            name: text
+        })
+
+    }
     if (!user) {
         return <App />;
     }
@@ -12,6 +24,10 @@ const ProfilePage = props => {
                 <header className="profile-cover-section">
                     <h3>My social network</h3>
                     <button onClick={signOut}>Sign Out</button>
+
+
+                    <button onClick={p}> TEMPLATE</button>
+                    <input id="try" />
                 </header>
                 <main>
                     <div className="user-list">
