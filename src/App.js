@@ -1,84 +1,36 @@
 import React, { Component } from 'react';
 import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./firebase";
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 import ProfilePage from './components/profile-page/profile.page';
 
 class App extends Component {
-    state = {
-      email: `test@test.com`,
-      password: `password`
-    };
+   
     render() {
-      // console.log(this.props);
-  
+   
       const {
-        signInWithEmail,
-        signUpWithEmail,
         signInWithGoogle,
         user,
         error,
         signOut
       } = this.props;
-      const { email, password } = this.state;
       if (user) {
       return <ProfilePage user={user} error={error} signOut={signOut} />;
       }
       return (
+        <div className='main-App'>
+        <div className='wrapper-App'>
+
+     <img src={logo}/>
         <div>
-          <form onSubmit={e => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Email"
-              onChange={e => this.setState({ email: e.target.value })}
-            />{" "}
-            <br />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={e => this.setState({ password: e.target.value })}
-            />
-            <br />
-           
-            {!user && (
-              <button
-                type="submit"
-                onClick={() => signInWithEmail(email, password)}
-              >
-                SignIn
-              </button>
-            )}
-          </form>
-          <form onSubmit={e => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Email"
-              onChange={e =>
-                this.setState({
-                  email: e.target.value
-                })
-              }
-              value={email}
-            />{" "}
-  
-            <br />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={e => this.setState({ password: e.target.value })}
-              value={password}
-            />{" "}
-            <br />
-            <button
-              type="submit"
-              onClick={() => signUpWithEmail(email, password)}
-            >
-              SignUp
-            </button>
-          </form>
-          <br />
-          <button onClick={signInWithGoogle}>Signin with Google</button> <br />
+        <h3> Hello, I'm a little app </h3>
+        <h4>Sign in and see what's inside</h4>
+         
+          <button className='btn-App' onClick={signInWithGoogle}>Signin with Google</button> 
+          </div>
+
+          </div>
         </div>
       );
     }
