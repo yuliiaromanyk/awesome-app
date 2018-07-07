@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./firebase";
 import Home from "./Home";
-import logo from './logo.svg';
 import './App.css';
+
+import PostsPage from './pages/PostsPage/PostsPage';
 
 class App extends Component {
     state = {
@@ -80,6 +81,7 @@ class App extends Component {
           <br />
           <button onClick={signInWithGoogle}>Signin with Google</button> <br />
       
+          <PostsPage />
         </div>
       );
     }

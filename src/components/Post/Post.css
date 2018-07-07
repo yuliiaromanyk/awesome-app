@@ -1,0 +1,14 @@
+.Post-text
+{
+  border: 1px solid #f4f4f4;
+  padding: 20px 25px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  color: #7f7f7f;
+  margin-left: 15%;
+}
+.UserName
+{
+  margin-left: 5%;
+}
