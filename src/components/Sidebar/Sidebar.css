@@ -1,0 +1,11 @@
+.nav-users {
+  display: flex;
+  height: 25px;
+  justify-content: center;
+}
+
+.div-users {
+
+  width: 300px;
+  background: #fbfbfb;
+}
