@@ -24,19 +24,27 @@ class ProfilePage extends Component {
             snapshot.forEach(function(childSnapshot) {
                 var childData = childSnapshot.val();
                 data.push(childData);
+                console.log(childData);
+                
             });
         });
 
         this.state = {
-            user: user,
-            allUsers: data,
+            user: user, //data to display user can be changed
+            loggedUser: user, // Save data about logged user DONT CHANGE!!!
+            allUsers: data, //Data about all users
             signOut: signOut,
             error: error,
-            content: null
+            content: null //users sidebar
         }
 
     }
 
+
+    //render post logic if loggedUser id != user id hide component like sidebar else show 
+    //render post should work as separate component and should take user as a props
+    // if everything done well hould work like photo and username change
+    // dont add liseners to change users
 
 
     p = () => {
@@ -58,36 +66,47 @@ class ProfilePage extends Component {
 
     }
 
+    showLoggedUser = () =>{
+        this.setState({
+            user: this.state.loggedUser //returns to logged user page by cliking on sites logo
+        });
+    }
+
     postsClickHandle = () => {
         this.setState({
-            content: null
+            content: null //disables sidebar
         });
     }
 
     usersClickHandle = () => {
         this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} title="All Users"/>
+            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="All Users"/>
         });
     }
 
     followersClickHandle = () => {
         this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} title="Followers"/> //add followers
+            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="Followers"/> //add followers
         });
     }
 
     followingClickHandle = () => {
         this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} title="Followings"/> //add followings
+            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="Followings"/> //add followings
         });
     }
 
+    showAnoterUserInfo = (userInfo) => {
+        this.setState({
+            user: userInfo //changes user data to display for detail watch user component
+        });
+    }
 
     render() {
         return (
             <section className="section-profile">
             <header className="profile-cover-section">
-                <h3>My social network</h3>
+                <h3 onClick={this.showLoggedUser}>My social network</h3>
                 <button onClick={this.state.signOut}>Sign Out</button>
 
 
