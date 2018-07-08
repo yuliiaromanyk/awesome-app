@@ -23,6 +23,7 @@ class ProfilePage extends Component {
             snapshot.forEach(function(childSnapshot) {
                 var childData = childSnapshot.val();
                 data.push(childData);
+                console.log(childData);
             });
         });
         
@@ -34,15 +35,21 @@ class ProfilePage extends Component {
         });
 
         this.state = {
-            user: user,
+            user: user, //data to display user can be changed
+            loggedUser: user, // Save data about logged user DONT CHANGE!!!
             posts: post,
-            allUsers: data,
+            allUsers: data,//Data about all users
             signOut: signOut,
             error: error,
-            content: null
-        } 
-          
+            content: null, //users sidebar
+            postInput: <NewPostInput pushPostToDB={this.p}/>
+        }
     }
+
+    //render post logic if loggedUser id != user id hide component like sidebar else show 
+    //render post should work as separate component and should take user as a props
+    // if everything done well hould work like photo and username change
+    // dont add liseners to change users
 
     p = () => {        
         let currentdate = new Date(); 
@@ -66,27 +73,50 @@ class ProfilePage extends Component {
         });
     }
 
+    showLoggedUser = () =>{
+            this.setState({
+            user: this.state.loggedUser, //returns to logged user page by cliking on sites logo
+            postInput:  <NewPostInput pushPostToDB={this.p}/>
+        });  
+    }
+
     postsClickHandle = () => {        
         this.setState({
-            content: null
+            content: null //disables sidebar
         });
     }
 
     usersClickHandle = () => {
         this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} title="All Users"/>
+            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="All Users"/>
         });
     }
 
     followersClickHandle = () => {
         this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} title="Followers"/> //add followers
+            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="Followers"/> //add followers
         });
     }
 
     followingClickHandle = () => {
         this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} title="Followings"/> //add followings
+            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="Followings"/> //add followings
+        });
+    }
+
+    showAnoterUserInfo = (userInfo) => {
+        this.postsRef = firebase.database().ref('/users').child(userInfo.uid).child('posts');   
+        let newArr = [];
+        this.postsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var postItem = childSnapshot.val();
+                newArr.push(postItem);
+            });
+        });
+            this.setState({
+                user: userInfo, //changes user data to display for detail watch user component
+                posts: newArr,
+                postInput:  null
         });
     }
 
@@ -94,7 +124,7 @@ class ProfilePage extends Component {
         return (
             <section className="section-profile">
             <header className="profile-cover-section">
-                <h3>My social network</h3>
+                <h3 onClick={this.showLoggedUser}>My profile</h3>
                 <button onClick={this.state.signOut}>Sign Out</button>
 
             </header>
@@ -119,12 +149,12 @@ class ProfilePage extends Component {
                             </aside>
 
                             <div className="div-post-content">
-
-                                <NewPostInput pushPostToDB={this.p}/>
+                               {this.state.postInput}
+                                
                                 <div className="timeline-allposts">
                                     <ul>
                                         {this.state.posts.map((post, i) => (
-                                            <Post key={i} user={this.props.user} post={post} />
+                                            <Post key={i} user={this.state.user} post={post} />
                                         ))}
                                     </ul>
                                 </div>
