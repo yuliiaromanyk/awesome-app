@@ -1,64 +1,72 @@
 import React, { Component } from 'react';
-import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./../../firebase";
 import './profile-page.css';
 import App from "./../../App";
 import Sidebar from '../Sidebar/Sidebar';
-
+import NewPostInput from './../new-post-input/new-post-input';
+import Post from './../post/post';
 
 class ProfilePage extends Component {
 
     constructor(props) {
         super(props);
         const { user, signOut, error } = props;
-         this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
-
-        if (!user) {
-            return <App />;
-        }
+        
+        this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
 
         let data = [];
+        let post = [];
         
         var usersRef = firebase.database().ref('/users');
+        
         usersRef.on('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var childData = childSnapshot.val();
                 data.push(childData);
             });
         });
+        
+        this.postsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var postItem = childSnapshot.val();
+                post.push(postItem);
+            });
+        });
 
         this.state = {
             user: user,
+            posts: post,
             allUsers: data,
             signOut: signOut,
             error: error,
             content: null
-        }
-
+        } 
+          
     }
 
-
-
-    p = () => {
-        
-        
+    p = () => {        
         let currentdate = new Date(); 
-        let datetime =  + currentdate.getDate() + "/"+  (parseInt(currentdate.getMonth())    + 1)
-            + "/" + currentdate.getFullYear()   
+        let datetime =  + currentdate.getDate() + "/"+  (parseInt(currentdate.getMonth()) + 1)
+            + "/" + currentdate.getFullYear()   + " "
             + currentdate.getHours() + ":"  
             + currentdate.getMinutes() + ":" + currentdate.getSeconds(); 
 
         let noteText = document.getElementById('try').value;
-        this.postsRef.push({
+        
+        let newPost = {
             name: noteText,
-            author: this.user,
-           dateNote: datetime
+            author: this.state.user.displayName,
+            dateNote: datetime
+        }
+        
+        this.postsRef.push(newPost);
 
-        })
-
+        this.setState({
+            posts: [newPost , ...this.state.posts]
+        });
     }
 
-    postsClickHandle = () => {
+    postsClickHandle = () => {        
         this.setState({
             content: null
         });
@@ -82,14 +90,12 @@ class ProfilePage extends Component {
         });
     }
 
-
     render() {
         return (
             <section className="section-profile">
             <header className="profile-cover-section">
                 <h3>My social network</h3>
                 <button onClick={this.state.signOut}>Sign Out</button>
-
 
             </header>
             <main className="main-profile">
@@ -112,33 +118,14 @@ class ProfilePage extends Component {
                                 {this.state.content}
                             </aside>
 
-
-
-
                             <div className="div-post-content">
-                                <div className="timeline-newpost">
-                                    <input id="try" placeholder="What`s new?"/>
-                                    <button onClick={this.p}>Post</button>
-                                </div>
 
-
-
+                                <NewPostInput pushPostToDB={this.p}/>
                                 <div className="timeline-allposts">
                                     <ul>
-                                        <li>
-                                            <img src={this.state.user.photoURL}/>
-                                            <div className="timeline-post-text">
-                                                <h5>{this.state.user.displayName}</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <img src={this.state.user.photoURL}/>
-                                            <div className="timeline-post-text">
-                                                <h5>{this.state.user.displayName}</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                            </div>
-                                        </li>
+                                        {this.state.posts.map((post, i) => (
+                                            <Post key={i} user={this.props.user} post={post} />
+                                        ))}
                                     </ul>
                                 </div>
                             </div>

@@ -1,22 +1,17 @@
 import React from 'react';
-import App from "./../../App";
-import '../Post/Post.css';
+import '../post/post.css';
 
 export default class Post extends React.Component {
-
   render() {
-    console.log(this.props.user);
     return (
-      <div className="Post-text">
-
-        <div className="Post-posts">
+      <li className="post-data">
         <img src={this.props.user.photoURL}/>
-        <h4 className="UserName">
-        { this.props.user.displayName }
-        </h4>
+        <div className="timeline-post-text">
+            <h5>{this.props.user.displayName}</h5>
+            <p>{this.props.post.name}</p>
+            <span className="post-date">{this.props.post.dateNote}</span>
         </div>
-        { this.props.post.value }
-      </div>
+      </li>
     )
   }
 }
