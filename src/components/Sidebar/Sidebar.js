@@ -18,7 +18,7 @@ class App extends Component {
         </nav>
         <div>
             {
-              <Users users={this.props.users}/>
+              <Users users={this.props.users} showUser={this.props.showUser}/>
             }
         </div>
       </div>
