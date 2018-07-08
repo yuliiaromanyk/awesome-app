@@ -26,7 +26,7 @@ class Users extends Component {
                 {
                     this.renderUsers()
                 }
-            </ul>s
+            </ul>
         );
     }
 }

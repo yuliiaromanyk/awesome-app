@@ -11,14 +11,14 @@ class ProfilePage extends Component {
     constructor(props) {
         super(props);
         const { user, signOut, error } = props;
-
-        this.posts = firebase.database().ref('/users').child(user.uid).child('posts');
+         this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
 
         if (!user) {
             return <App />;
         }
 
         let data = [];
+        
         var usersRef = firebase.database().ref('/users');
         usersRef.on('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
@@ -37,10 +37,23 @@ class ProfilePage extends Component {
 
     }
 
+
+
     p = () => {
-        let text = document.getElementById('try').value;
-        this.posts.push({
-            name: text
+        
+        
+        let currentdate = new Date(); 
+        let datetime =  + currentdate.getDate() + "/"+  (parseInt(currentdate.getMonth())    + 1)
+            + "/" + currentdate.getFullYear()   
+            + currentdate.getHours() + ":"  
+            + currentdate.getMinutes() + ":" + currentdate.getSeconds(); 
+
+        let noteText = document.getElementById('try').value;
+        this.postsRef.push({
+            name: noteText,
+            author: this.user,
+           dateNote: datetime
+
         })
 
     }
@@ -78,8 +91,6 @@ class ProfilePage extends Component {
                 <button onClick={this.state.signOut}>Sign Out</button>
 
 
-                <button onClick={this.p}> TEMPLATE</button>
-                <input id="try" />
             </header>
             <main className="main-profile">
                 <div className="user-info">
@@ -100,11 +111,18 @@ class ProfilePage extends Component {
                             <aside className="aside-users">
                                 {this.state.content}
                             </aside>
+
+
+
+
                             <div className="div-post-content">
                                 <div className="timeline-newpost">
-                                    <input placeholder="What`s new?"/>
-                                    <button>Post</button>
+                                    <input id="try" placeholder="What`s new?"/>
+                                    <button onClick={this.p}>Post</button>
                                 </div>
+
+
+
                                 <div className="timeline-allposts">
                                     <ul>
                                         <li>
