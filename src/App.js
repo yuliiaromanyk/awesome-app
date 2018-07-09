@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./firebase";
 
-import Home from "./Home";
 import logo from './logo.png';
 
 import './App.css';
-import ProfilePage from './components/profile-page/profile.page';
-
-import PostsPage from './pages/PostsPage/PostsPage';
+import ProfilePage from './components/profile-page/profile-page';
 
 class App extends Component {
    
@@ -19,7 +16,7 @@ class App extends Component {
         error,
         signOut
       } = this.props;
-      if (user) {
+      if (user) {      
       return <ProfilePage user={user} error={error} signOut={signOut} />;
       }
       return (

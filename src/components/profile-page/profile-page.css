@@ -11,8 +11,8 @@ ul {
 }
 
 .user-timeline {
-    display: grid;
-    grid-template-columns: auto auto;
+    /*display: grid;
+    grid-template-columns: auto auto;*/
 }
 
 .aside-users {
@@ -97,53 +97,6 @@ ul {
     background-color: #fff;
 }
 
-.timeline-newpost {
-    padding: 20px 40px;
-    border: 1px solid #f4f4f4;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.timeline-newpost input {
-    height: 35px;
-    width: 85%;
-    padding: 0 10px;
-}
-
-.timeline-newpost button {
-    height: 39px;
-    width: 10%;
-    border-radius: 25px;
-    background: #57b846;
-    color: #fff;
-    text-transform: uppercase;
-    border: 0;
-    cursor: pointer;
-}
-
-.timeline-allposts li {
-    border: 1px solid #f4f4f4;
-    padding: 20px 25px;
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-}
-
-.timeline-allposts li img {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-}
-
-.timeline-post-text {
-    padding: 0 20px 0;
-    color: #7f7f7f;
-}
-
-.timeline-post-text h5 {
-    margin-top: 0px;
-}
 
 .section-profile {
     font-family: 'Lobster', cursive;

@@ -1,78 +1,85 @@
 import React, { Component } from 'react';
-import withFirebaseAuth from "react-auth-firebase";
 import firebase from "./../../firebase";
 import './profile-page.css';
 import App from "./../../App";
 import Sidebar from '../Sidebar/Sidebar';
-
+import NewPostInput from './../new-post-input/new-post-input';
+import Post from './../post/post';
 
 class ProfilePage extends Component {
 
     constructor(props) {
         super(props);
         const { user, signOut, error } = props;
-         this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
-
-        if (!user) {
-            return <App />;
-        }
+        
+        this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
 
         let data = [];
+        let post = [];
         
         var usersRef = firebase.database().ref('/users');
+        
         usersRef.on('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var childData = childSnapshot.val();
                 data.push(childData);
-                console.log(childData);
-                
+            });
+        });
+        
+        this.postsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var postItem = childSnapshot.val();
+                post.push(postItem);
             });
         });
 
         this.state = {
             user: user, //data to display user can be changed
             loggedUser: user, // Save data about logged user DONT CHANGE!!!
-            allUsers: data, //Data about all users
+            posts: post,
+            allUsers: data,//Data about all users
             signOut: signOut,
             error: error,
-            content: null //users sidebar
+            content: null, //users sidebar
+            postInput: <NewPostInput pushPostToDB={this.p}/>
         }
-
     }
-
 
     //render post logic if loggedUser id != user id hide component like sidebar else show 
     //render post should work as separate component and should take user as a props
     // if everything done well hould work like photo and username change
     // dont add liseners to change users
 
-
-    p = () => {
-        
-        
+    p = () => {        
         let currentdate = new Date(); 
-        let datetime =  + currentdate.getDate() + "/"+  (parseInt(currentdate.getMonth())    + 1)
-            + "/" + currentdate.getFullYear()   
+        let datetime =  + currentdate.getDate() + "/"+  (parseInt(currentdate.getMonth()) + 1)
+            + "/" + currentdate.getFullYear()   + " "
             + currentdate.getHours() + ":"  
             + currentdate.getMinutes() + ":" + currentdate.getSeconds(); 
 
         let noteText = document.getElementById('try').value;
-        this.postsRef.push({
+        
+        let newPost = {
             name: noteText,
-            author: this.user,
-           dateNote: datetime
+            author: this.state.user.displayName,
+            dateNote: datetime
+        }
+        
+        this.postsRef.push(newPost);
 
-        })
-
-    }
-
-    showLoggedUser = () =>{
         this.setState({
-            user: this.state.loggedUser //returns to logged user page by cliking on sites logo
+            posts: [newPost , ...this.state.posts]
         });
     }
 
-    postsClickHandle = () => {
+    showLoggedUser = () =>{
+            this.setState({
+            user: this.state.loggedUser, //returns to logged user page by cliking on sites logo
+            postInput:  <NewPostInput pushPostToDB={this.p}/>
+        });  
+    }
+
+    postsClickHandle = () => {        
         this.setState({
             content: null //disables sidebar
         });
@@ -97,8 +104,18 @@ class ProfilePage extends Component {
     }
 
     showAnoterUserInfo = (userInfo) => {
-        this.setState({
-            user: userInfo //changes user data to display for detail watch user component
+        this.postsRef = firebase.database().ref('/users').child(userInfo.uid).child('posts');   
+        let newArr = [];
+        this.postsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var postItem = childSnapshot.val();
+                newArr.push(postItem);
+            });
+        });
+            this.setState({
+                user: userInfo, //changes user data to display for detail watch user component
+                posts: newArr,
+                postInput:  null
         });
     }
 
@@ -106,9 +123,8 @@ class ProfilePage extends Component {
         return (
             <section className="section-profile">
             <header className="profile-cover-section">
-                <h3 onClick={this.showLoggedUser}>My social network</h3>
+                <h3 onClick={this.showLoggedUser}>My profile</h3>
                 <button onClick={this.state.signOut}>Sign Out</button>
-
 
             </header>
             <main className="main-profile">
@@ -131,33 +147,14 @@ class ProfilePage extends Component {
                                 {this.state.content}
                             </aside>
 
-
-
-
                             <div className="div-post-content">
-                                <div className="timeline-newpost">
-                                    <input id="try" placeholder="What`s new?"/>
-                                    <button onClick={this.p}>Post</button>
-                                </div>
-
-
-
+                               {this.state.postInput}
+                                
                                 <div className="timeline-allposts">
                                     <ul>
-                                        <li>
-                                            <img src={this.state.user.photoURL}/>
-                                            <div className="timeline-post-text">
-                                                <h5>{this.state.user.displayName}</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <img src={this.state.user.photoURL}/>
-                                            <div className="timeline-post-text">
-                                                <h5>{this.state.user.displayName}</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                            </div>
-                                        </li>
+                                        {this.state.posts.map((post, i) => (
+                                            <Post key={i} user={this.state.user} post={post} />
+                                        ))}
                                     </ul>
                                 </div>
                             </div>
