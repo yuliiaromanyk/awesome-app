@@ -23,7 +23,6 @@ class ProfilePage extends Component {
             snapshot.forEach(function(childSnapshot) {
                 var childData = childSnapshot.val();
                 data.push(childData);
-                console.log(childData);
             });
         });
         
