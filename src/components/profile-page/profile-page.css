@@ -11,8 +11,8 @@ ul {
 }
 
 .user-timeline {
-    /*display: grid;
-    grid-template-columns: auto auto;*/
+    display: grid;
+    grid-template-columns: auto 1fr;
 }
 
 .aside-users {

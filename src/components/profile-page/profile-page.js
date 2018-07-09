@@ -4,7 +4,7 @@ import './profile-page.css';
 import App from "./../../App";
 import Sidebar from '../Sidebar/Sidebar';
 import NewPostInput from './../new-post-input/new-post-input';
-import Post from './../post/post';
+import Post from './../Post/Post';
 
 class ProfilePage extends Component {
 
@@ -91,17 +91,6 @@ class ProfilePage extends Component {
         });
     }
 
-    followersClickHandle = () => {
-        this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="Followers"/> //add followers
-        });
-    }
-
-    followingClickHandle = () => {
-        this.setState({
-            content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="Followings"/> //add followings
-        });
-    }
 
     showAnoterUserInfo = (userInfo) => {
         this.postsRef = firebase.database().ref('/users').child(userInfo.uid).child('posts');   
@@ -137,8 +126,6 @@ class ProfilePage extends Component {
                                 <ul>
                                     <li onClick={this.postsClickHandle} className="li-navigation">Posts</li>
                                     <li onClick={this.usersClickHandle} className="li-navigation">All Users</li>
-                                    <li onClick={this.followersClickHandle} className="li-navigation">Followers</li>
-                                    <li onClick={this.followingClickHandle} className="li-navigation">Following</li>
                                 </ul>
                             </div>
                         </div>
