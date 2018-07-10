@@ -8,28 +8,28 @@ import Post from './../Post/Post';
 
 class ProfilePage extends Component {
 
+
     constructor(props) {
         super(props);
         const { user, signOut, error } = props;
 
-        this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
-
         let data = [];
         let post = [];
 
-        var usersRef = firebase.database().ref('/users');
+        this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
+        let usersRef = firebase.database().ref('/users');
 
-        usersRef.on('value', function (snapshot) {
+        usersRef.once('value', function (snapshot) { //не міняти once !!!!
             snapshot.forEach(function (childSnapshot) {
-                var childData = childSnapshot.val();
+                let childData = childSnapshot.val();
                 data.push(childData);
             });
         });
 
-        this.postsRef.on('value', function (snapshot) {
+        this.postsRef.once('value', function (snapshot) {  //не міняти once !!!!
             snapshot.forEach(function (childSnapshot) {
-                var postItem = childSnapshot.val();
-                post.push(postItem);
+                let postItem = childSnapshot.val();
+                post.unshift(postItem);
             });
         });
 
@@ -72,11 +72,22 @@ class ProfilePage extends Component {
         });
     }
 
-    showLoggedUser = () => {
-        this.setState({
-            user: this.state.loggedUser, //returns to logged user page by cliking on sites logo
-            postInput: <NewPostInput pushPostToDB={this.p} />
+    showLoggedUser = (userInfo) => {
+
+        let newArr = [];
+        this.postsRef.once('value', function (snapshot) {   //не міняти once !!!!
+            snapshot.forEach(function (childSnapshot) {
+                let postItem = childSnapshot.val();
+                newArr.unshift(postItem);
+            });
+        }).then(() => {
+            this.setState({
+                user: userInfo, //changes user data to display for detail watch user component
+                posts: newArr,
+                postInput: <NewPostInput pushPostToDB={this.p} />
+            });
         });
+
     }
 
     postsClickHandle = () => {
@@ -94,20 +105,37 @@ class ProfilePage extends Component {
 
     showAnoterUserInfo = (userInfo) => {
         if (userInfo.uid === this.state.loggedUser.uid) {
-            this.showLoggedUser()
+            this.showLoggedUser(userInfo)
         } else {
-            this.postsRef = firebase.database().ref('/users').child(userInfo.uid).child('posts');
             let newArr = [];
-            this.postsRef.on('value', function (snapshot) {
+            firebase.database().ref('/users').child(userInfo.uid).child('posts').once('value', function (snapshot) {   //не міняти once !!!!
                 snapshot.forEach(function (childSnapshot) {
-                    var postItem = childSnapshot.val();
-                    newArr.push(postItem);
+                    let postItem = childSnapshot.val();
+                    newArr.unshift(postItem);
+                });
+            }).then(() => {
+                this.setState({
+                    user: userInfo, //changes user data to display for detail watch user component
+                    posts: newArr,
+                    postInput: null
                 });
             });
-            this.setState({
-                user: userInfo, //changes user data to display for detail watch user component
-                posts: newArr,
-                postInput: null
+
+        }
+    }
+
+    renderPosts = () => {
+        if (this.state.posts.length === 0) {
+            let newArr = [];
+            this.postsRef.once('value', function (snapshot) {   //не міняти once !!!!
+                snapshot.forEach(function (childSnapshot) {
+                    let postItem = childSnapshot.val();
+                    newArr.unshift(postItem);
+                });
+            }).then(() => {
+                this.setState({
+                    posts: newArr
+                });
             });
         }
     }
@@ -116,7 +144,7 @@ class ProfilePage extends Component {
         return (
             <section className="section-profile">
                 <header className="profile-cover-section">
-                    <h3 className="h3-myProfile" onClick={this.showLoggedUser}>My profile</h3>
+                    <h3 className="h3-myProfile">My profile</h3>
                     <button onClick={this.state.signOut}>Sign Out</button>
 
                 </header>
@@ -137,16 +165,13 @@ class ProfilePage extends Component {
                                 <aside className="aside-users">
                                     {this.state.content}
                                 </aside>
-
+                                {
+                                    this.renderPosts()
+                                }
                                 <div className="div-post-content">
                                     {this.state.postInput}
-
                                     <div className="timeline-allposts">
-                                        <ul>
-                                            {this.state.posts.map((post, i) => (
-                                                <Post key={i} user={this.state.user} post={post} />
-                                            ))}
-                                        </ul>
+                                        <Post user={this.state.user} posts={this.state.posts} />
                                     </div>
                                 </div>
                             </div>

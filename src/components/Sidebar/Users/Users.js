@@ -15,7 +15,6 @@ class Users extends Component {
             <li className="div-users_list" key={index} onClick={() => this.props.showUser(item)}>
                 <img src={item.photoURL} alt="User Name" className="img-user"/>
                 <p className="p-userName">{item.displayName}</p>
-                <button className="follow-btn">follow +</button>
             </li>
         ));
     }
