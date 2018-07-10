@@ -6,15 +6,18 @@
   justify-content: space-between;
 }
 
-.timeline-newpost input {
-  height: 35px;
+.timeline-newpost textarea {
+  height: 100px;
   width: 85%;
   padding: 0 10px;
+  resize: none;
 }
 
+
 .timeline-newpost button {
-  height: 39px;
+  height: 40px;
   width: 15%;
+  margin-left: 5px;
   border-radius: 25px;
   background: #57b846;
   color: #fff;
@@ -27,11 +30,12 @@
   .timeline-newpost {
       display: grid;
       grid-template-columns: 100%;
-      grid-template-rows: 50px 50px;
+      grid-template-rows: 110px 50px;
   }
 
-  .timeline-newpost input {
+  .timeline-newpost textarea {
     grid-row: 1;
+    height: 100px;
     width: 100%;
   }
 

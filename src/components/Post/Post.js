@@ -9,11 +9,21 @@ export default class Post extends React.Component {
         <img src={this.props.user.photoURL} alt="User Name" />
         <div className="timeline-post-text">
           <h5>{this.props.user.displayName}</h5>
-          <p>{item.name}</p>
+          {this.complex(item.name)}
           <span className="post-date">{item.dateNote}</span>
         </div>
       </li>
     ));
+  }
+
+  complex(str) {
+    let arr = str.split("\n");
+    return arr.map(item =>
+      (
+        <p>
+          {item}<br />
+        </p>
+      ))
   }
 
   render() {
