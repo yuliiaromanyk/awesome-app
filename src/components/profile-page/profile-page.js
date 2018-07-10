@@ -6,6 +6,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import NewPostInput from '../new-post-input/new-post-input';
 import Post from '../Post/Post';
 import Header from '../Header/Header';
+import Scroll from '../Scroll/Scroll';
 import UserInfo from '../UserInfo/UserInfo';
 
 //css
@@ -32,6 +33,7 @@ class ProfilePage extends Component {
             });
         });
 
+
         this.state = {
             user: user,
             loggedUser: user,
@@ -40,11 +42,11 @@ class ProfilePage extends Component {
             signOut: signOut,
             error: error,
             content: null,
-            postInput: <NewPostInput pushPostToDB={this.p} />
+            postInput: <NewPostInput pushPostToDB={this.addPostToDB} />
         }
     }
 
-    p = () => {
+    addPostToDB = () => {
         let currentdate = new Date();
         let datetime = + currentdate.getDate() + "/" + (parseInt(currentdate.getMonth()) + 1)
             + "/" + currentdate.getFullYear() + " "
@@ -78,7 +80,7 @@ class ProfilePage extends Component {
             this.setState({
                 user: userInfo,
                 posts: newArr,
-                postInput: <NewPostInput pushPostToDB={this.p} />
+                postInput: <NewPostInput pushPostToDB={this.addPostToDB} />
             });
         });
 
@@ -95,7 +97,6 @@ class ProfilePage extends Component {
             content: <Sidebar curUsers={this.state.user} users={this.state.allUsers} showUser={this.showAnoterUserInfo} title="All Users" />
         });
     }
-
 
     showAnoterUserInfo = (userInfo) => {
         if (userInfo.uid === this.state.loggedUser.uid) {
@@ -136,7 +137,7 @@ class ProfilePage extends Component {
 
     render() {
         return (
-            <section className="section-profile">
+            <section className="section-profile" id="top">
                 <Header signOut={this.state.signOut} />
                 <main className="main-profile">
                     <div className="user-info">
@@ -156,6 +157,7 @@ class ProfilePage extends Component {
                                 </div>
                             </div>
                         </div>
+                        <Scroll />
                     </div>
                 </main>
             </section>

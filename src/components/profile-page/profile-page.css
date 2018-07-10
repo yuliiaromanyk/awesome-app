@@ -41,3 +41,24 @@ ul {
 .li-navigation {
     cursor: pointer;
 }
+
+
+@media only screen and (max-width: 1000px) {
+
+    .div-users {
+        width: 200px;
+    }
+
+}
+
+@media only screen and (max-width: 850px) {
+    .p-userName{
+        display: none;
+    }
+    .div-users {
+        width: 60px;
+    }
+    .nav-item{
+        display: none;
+    }
+}
