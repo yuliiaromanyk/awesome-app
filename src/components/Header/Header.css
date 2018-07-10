@@ -13,15 +13,20 @@
     color: white;
 }
 
-.profile-cover-section button {
-    border: 0;
-    background-color: transparent;
-    color: white;
-    font-size: 1.17em;
-    border-bottom: 2px solid white;
-    font-weight: 600;
-}
+
 
 h1 {
     font-size: 2em;
+}
+
+button{
+height: 40px;
+width: 15%;
+margin-left: 5px;
+border-radius: 25px;
+background: #57b846;
+color: #fff;
+text-transform: uppercase;
+border: 0;
+cursor: pointer;
 }

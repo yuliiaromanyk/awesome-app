@@ -19,13 +19,18 @@
 }
 
 .user-info-header li {
+    padding: 10px;
     list-style: none;
     margin-right: 30px;
 }
 
+.user-info-header li:hover {
+   background-color:whitesmoke;
+}
+
 .user-info-header img {
-    height: 100px;
-    width: 100px;
+    height: 120px;
+    width: 120px;
     border-radius: 50%;
     position: relative;
     top: -50px;

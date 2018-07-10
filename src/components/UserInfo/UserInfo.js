@@ -15,8 +15,8 @@ class UserInfo extends Component {
                 <div className="info-header-details">
                     <h4>{this.props.userName}</h4>
                     <ul>
-                        <li onClick={this.props.postsClickHandle} className="li-navigation">Posts</li>
-                        <li onClick={this.props.usersClickHandle} className="li-navigation">All Users</li>
+                    <li onClick={this.props.postsClickHandle} className="li-navigation">Posts <i className="far fa-edit"></i></li>
+                    <li onClick={this.props.usersClickHandle} className="li-navigation">All Users <i className="fas fa-user-friends"></i></li>
                     </ul>
                 </div>
             </div>

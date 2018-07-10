@@ -4,12 +4,13 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .timeline-newpost textarea {
-  height: 100px;
-  width: 85%;
-  padding: 0 10px;
+  height: 70px;
+  width: 80%;
+  padding: 15px;
   resize: none;
 }
 

@@ -2,9 +2,11 @@
   display: flex;
   height: 25px;
   justify-content: center;
+  padding:5px;
 }
 
 .div-users {
   width: 300px;
+  padding: 7px 0px;
   background: #fbfbfb;
 }

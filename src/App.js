@@ -23,12 +23,12 @@ class App extends Component {
         <div className='main-App'>
         <div className='wrapper-App'>
 
-     <img src={logo}/>
+     <img src={logo} alt="logo"/>
         <div>
         <h3> Hello, I'm a little app </h3>
         <h4>Sign in and see what's inside</h4>
          
-          <button className='btn-App' onClick={signInWithGoogle}>Signin with Google</button> 
+          <button className='btn-App' onClick={signInWithGoogle}>Sign in with Google+</button> 
           </div>
 
           </div>
