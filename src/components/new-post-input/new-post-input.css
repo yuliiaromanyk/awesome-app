@@ -14,11 +14,29 @@
 
 .timeline-newpost button {
   height: 39px;
-  width: 10%;
+  width: 15%;
   border-radius: 25px;
   background: #57b846;
   color: #fff;
   text-transform: uppercase;
   border: 0;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 850px) {
+  .timeline-newpost {
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 50px 50px;
+  }
+
+  .timeline-newpost input {
+    grid-row: 1;
+    width: 100%;
+  }
+
+  .timeline-newpost button {
+    grid-row: 2;
+    width: 100%;
+  }
 }

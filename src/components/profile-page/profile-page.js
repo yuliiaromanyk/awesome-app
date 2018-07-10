@@ -1,56 +1,52 @@
 import React, { Component } from 'react';
 import firebase from "./../../firebase";
-import './profile-page.css';
-import App from "./../../App";
+
+//components
 import Sidebar from '../Sidebar/Sidebar';
-import NewPostInput from './../new-post-input/new-post-input';
-import Post from './../Post/Post';
+import NewPostInput from '../new-post-input/new-post-input';
+import Post from '../Post/Post';
+import Header from '../Header/Header';
+import Scroll from '../Scroll/Scroll';
+import UserInfo from '../UserInfo/UserInfo';
+
+//css
+import './profile-page.css';
+
 
 class ProfilePage extends Component {
+
 
     constructor(props) {
         super(props);
         const { user, signOut, error } = props;
 
-        this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
-
         let data = [];
         let post = [];
 
-        var usersRef = firebase.database().ref('/users');
+        this.postsRef = firebase.database().ref('/users').child(user.uid).child('posts');
+        let usersRef = firebase.database().ref('/users');
 
-        usersRef.on('value', function (snapshot) {
+        usersRef.once('value', function (snapshot) { //не міняти once !!!!
             snapshot.forEach(function (childSnapshot) {
-                var childData = childSnapshot.val();
+                let childData = childSnapshot.val();
                 data.push(childData);
             });
         });
 
-        this.postsRef.on('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var postItem = childSnapshot.val();
-                post.push(postItem);
-            });
-        });
 
         this.state = {
-            user: user, //data to display user can be changed
-            loggedUser: user, // Save data about logged user DONT CHANGE!!!
+            user: user,
+            loggedUser: user,
             posts: post,
-            allUsers: data,//Data about all users
+            allUsers: data,
             signOut: signOut,
             error: error,
-            content: null, //users sidebar
-            postInput: <NewPostInput pushPostToDB={this.p} />
+            content: null,
+            postInput: <NewPostInput pushPostToDB={this.addPostToDB} />
         }
     }
 
-    //render post logic if loggedUser id != user id hide component like sidebar else show 
-    //render post should work as separate component and should take user as a props
-    // if everything done well hould work like photo and username change
-    // dont add liseners to change users
-
-    p = () => {
+    addPostToDB = () => {
         let currentdate = new Date();
         let datetime = + currentdate.getDate() + "/" + (parseInt(currentdate.getMonth()) + 1)
             + "/" + currentdate.getFullYear() + " "
@@ -72,16 +68,27 @@ class ProfilePage extends Component {
         });
     }
 
-    showLoggedUser = () => {
-        this.setState({
-            user: this.state.loggedUser, //returns to logged user page by cliking on sites logo
-            postInput: <NewPostInput pushPostToDB={this.p} />
+    showLoggedUser = (userInfo) => {
+
+        let newArr = [];
+        this.postsRef.once('value', function (snapshot) {   //не міняти once !!!!
+            snapshot.forEach(function (childSnapshot) {
+                let postItem = childSnapshot.val();
+                newArr.unshift(postItem);
+            });
+        }).then(() => {
+            this.setState({
+                user: userInfo,
+                posts: newArr,
+                postInput: <NewPostInput pushPostToDB={this.addPostToDB} />
+            });
         });
+
     }
 
     postsClickHandle = () => {
         this.setState({
-            content: null //disables sidebar
+            content: null
         });
     }
 
@@ -91,66 +98,66 @@ class ProfilePage extends Component {
         });
     }
 
-
     showAnoterUserInfo = (userInfo) => {
         if (userInfo.uid === this.state.loggedUser.uid) {
-            this.showLoggedUser()
+            this.showLoggedUser(userInfo)
         } else {
-            this.postsRef = firebase.database().ref('/users').child(userInfo.uid).child('posts');
             let newArr = [];
-            this.postsRef.on('value', function (snapshot) {
+            firebase.database().ref('/users').child(userInfo.uid).child('posts').once('value', function (snapshot) {   //не міняти once !!!!
                 snapshot.forEach(function (childSnapshot) {
-                    var postItem = childSnapshot.val();
-                    newArr.push(postItem);
+                    let postItem = childSnapshot.val();
+                    newArr.unshift(postItem);
+                });
+            }).then(() => {
+                this.setState({
+                    user: userInfo,
+                    posts: newArr,
+                    postInput: null
                 });
             });
-            this.setState({
-                user: userInfo, //changes user data to display for detail watch user component
-                posts: newArr,
-                postInput: null
+
+        }
+    }
+
+    connectToDB = () => {
+        if (this.state.posts.length === 0) {
+            let newArr = [];
+            this.postsRef.once('value', function (snapshot) {   //не міняти once !!!!
+                snapshot.forEach(function (childSnapshot) {
+                    let postItem = childSnapshot.val();
+                    newArr.unshift(postItem);
+                });
+            }).then(() => {
+                this.setState({
+                    posts: newArr
+                });
             });
         }
     }
 
     render() {
         return (
-            <section className="section-profile">
-                <header className="profile-cover-section">
-                    <h3 className="h3-myProfile" onClick={this.showLoggedUser}>My profile</h3>
-                    <button onClick={this.state.signOut}>Sign Out</button>
-
-                </header>
+            <section className="section-profile" id="top">
+                <Header signOut={this.state.signOut} />
                 <main className="main-profile">
                     <div className="user-info">
                         <div className="container">
-                            <div className="user-info-header">
-                                <img src={this.state.user.photoURL} />
-                                <div className="info-header-details">
-                                    <h4>{this.state.user.displayName}</h4>
-                                    <ul>
-                                        <li onClick={this.postsClickHandle} className="li-navigation">Posts</li>
-                                        <li onClick={this.usersClickHandle} className="li-navigation">All Users</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <UserInfo img={this.state.user.photoURL} userName={this.state.user.displayName}
+                                postsClickHandle={this.postsClickHandle} usersClickHandle={this.usersClickHandle} />
                             <div className="user-timeline">
                                 <aside className="aside-users">
                                     {this.state.content}
                                 </aside>
-
+                                {
+                                    this.connectToDB()
+                                }
                                 <div className="div-post-content">
                                     {this.state.postInput}
-
-                                    <div className="timeline-allposts">
-                                        <ul>
-                                            {this.state.posts.map((post, i) => (
-                                                <Post key={i} user={this.state.user} post={post} />
-                                            ))}
-                                        </ul>
-                                    </div>
+                                    <Post user={this.state.user} posts={this.state.posts} />
                                 </div>
                             </div>
                         </div>
+                        <Scroll />
                     </div>
                 </main>
             </section>

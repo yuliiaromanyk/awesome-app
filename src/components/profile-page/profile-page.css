@@ -23,70 +23,6 @@ ul {
     grid-column: 2;
 }
 
-.profile-cover-section {
-    background: #9053c7;
-    background: -webkit-linear-gradient(-135deg, #c850c0, #01DFA5);
-    background: -o-linear-gradient(-135deg, #c850c0, #01DFA5);
-    background: -moz-linear-gradient(-135deg, #c850c0, #01DFA5);
-    background: linear-gradient(-135deg, #c850c0, #01DFA5);
-    height: 250px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 10px 20px 0;
-    color: white;
-}
-
-.profile-cover-section button {
-    border: 0;
-    background-color: transparent;
-    color: white;
-    font-size: 1.17em;
-    border-bottom: 2px solid white;
-    font-weight: 600;
-}
-
-.user-info-header {
-    background-color: #fbfbfb;
-    display: flex;
-    height: 100px;
-    position: relative;
-    top: -100px;
-    color: #7f7f7f;
-}
-
-.user-info-header ul {
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
-    padding: 0;
-}
-
-.user-info-header h4 {
-    margin: 15px 20px 20px;
-}
-
-.user-info-header li {
-    list-style: none;
-    margin-right: 30px;
-}
-
-.user-info-header img {
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    position: relative;
-    top: -50px;
-    margin-left: 10px;
-}
-
-.info-header-details {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
 .user-info {
     background-color: #fbfbfb;
 }
@@ -104,4 +40,25 @@ ul {
 
 .li-navigation {
     cursor: pointer;
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+    .div-users {
+        width: 200px;
+    }
+
+}
+
+@media only screen and (max-width: 850px) {
+    .p-userName{
+        display: none;
+    }
+    .div-users {
+        width: 60px;
+    }
+    .nav-item{
+        display: none;
+    }
 }

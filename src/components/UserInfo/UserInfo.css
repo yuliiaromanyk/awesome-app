@@ -1,0 +1,39 @@
+.user-info-header {
+    background-color: #fbfbfb;
+    display: flex;
+    height: 100px;
+    position: relative;
+    top: -100px;
+    color: #7f7f7f;
+}
+
+.user-info-header ul {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.user-info-header h4 {
+    margin: 15px 20px 20px;
+}
+
+.user-info-header li {
+    list-style: none;
+    margin-right: 30px;
+}
+
+.user-info-header img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    position: relative;
+    top: -50px;
+    margin-left: 10px;
+}
+
+.info-header-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

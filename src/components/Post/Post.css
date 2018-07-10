@@ -12,6 +12,10 @@
     border-radius: 50%;
 }
 
+.post-data p {
+    max-width: 1000px;
+}
+
 .timeline-post-text {
     padding: 0 20px 0;
     width: 100%;

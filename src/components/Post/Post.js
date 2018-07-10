@@ -2,16 +2,29 @@ import React from 'react';
 import './Post.css';
 
 export default class Post extends React.Component {
-  render() {
-    return (
-      <li className="post-data">
-        <img src={this.props.user.photoURL}/>
+
+  renderPosts = () => {
+    return this.props.posts.map((item, index) => (
+      <li className="post-data" key={index}>
+        <img src={this.props.user.photoURL} alt="User Name" />
         <div className="timeline-post-text">
-            <h5>{this.props.user.displayName}</h5>
-            <p>{this.props.post.name}</p>
-            <span className="post-date">{this.props.post.dateNote}</span>
+          <h5>{this.props.user.displayName}</h5>
+          <p>{item.name}</p>
+          <span className="post-date">{item.dateNote}</span>
         </div>
       </li>
+    ));
+  }
+
+  render() {
+    return (
+      <div className="timeline-allposts">
+        <ul>
+          {
+            this.renderPosts()
+          }
+        </ul>
+      </div>
     )
   }
 }

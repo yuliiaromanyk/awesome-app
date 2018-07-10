@@ -1,0 +1,13 @@
+.img-up {
+    height: 50px;
+    width: 50px;
+    margin-left: 50px;
+    position: fixed;
+    bottom: 0;
+}
+
+@media only screen and (max-width: 850px) {
+    .img-up {
+        margin-left: 5px;
+    }
+}
