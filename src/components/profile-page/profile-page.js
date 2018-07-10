@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import firebase from "./../../firebase";
-import './profile-page.css';
-import App from "./../../App";
+
+//components
 import Sidebar from '../Sidebar/Sidebar';
-import NewPostInput from './../new-post-input/new-post-input';
-import Post from './../Post/Post';
+import NewPostInput from '../new-post-input/new-post-input';
+import Post from '../Post/Post';
+import Header from '../Header/Header';
+import UserInfo from '../UserInfo/UserInfo';
+
+//css
+import './profile-page.css';
+
 
 class ProfilePage extends Component {
 
@@ -26,29 +32,17 @@ class ProfilePage extends Component {
             });
         });
 
-        this.postsRef.once('value', function (snapshot) {  //не міняти once !!!!
-            snapshot.forEach(function (childSnapshot) {
-                let postItem = childSnapshot.val();
-                post.unshift(postItem);
-            });
-        });
-
         this.state = {
-            user: user, //data to display user can be changed
-            loggedUser: user, // Save data about logged user DONT CHANGE!!!
+            user: user,
+            loggedUser: user,
             posts: post,
-            allUsers: data,//Data about all users
+            allUsers: data,
             signOut: signOut,
             error: error,
-            content: null, //users sidebar
+            content: null,
             postInput: <NewPostInput pushPostToDB={this.p} />
         }
     }
-
-    //render post logic if loggedUser id != user id hide component like sidebar else show 
-    //render post should work as separate component and should take user as a props
-    // if everything done well hould work like photo and username change
-    // dont add liseners to change users
 
     p = () => {
         let currentdate = new Date();
@@ -82,7 +76,7 @@ class ProfilePage extends Component {
             });
         }).then(() => {
             this.setState({
-                user: userInfo, //changes user data to display for detail watch user component
+                user: userInfo,
                 posts: newArr,
                 postInput: <NewPostInput pushPostToDB={this.p} />
             });
@@ -92,7 +86,7 @@ class ProfilePage extends Component {
 
     postsClickHandle = () => {
         this.setState({
-            content: null //disables sidebar
+            content: null
         });
     }
 
@@ -115,7 +109,7 @@ class ProfilePage extends Component {
                 });
             }).then(() => {
                 this.setState({
-                    user: userInfo, //changes user data to display for detail watch user component
+                    user: userInfo,
                     posts: newArr,
                     postInput: null
                 });
@@ -124,7 +118,7 @@ class ProfilePage extends Component {
         }
     }
 
-    renderPosts = () => {
+    connectToDB = () => {
         if (this.state.posts.length === 0) {
             let newArr = [];
             this.postsRef.once('value', function (snapshot) {   //не міняти once !!!!
@@ -143,36 +137,22 @@ class ProfilePage extends Component {
     render() {
         return (
             <section className="section-profile">
-                <header className="profile-cover-section">
-                    <h3 className="h3-myProfile">My profile</h3>
-                    <button onClick={this.state.signOut}>Sign Out</button>
-
-                </header>
+                <Header signOut={this.state.signOut} />
                 <main className="main-profile">
                     <div className="user-info">
                         <div className="container">
-                            <div className="user-info-header">
-                                <img src={this.state.user.photoURL} />
-                                <div className="info-header-details">
-                                    <h4>{this.state.user.displayName}</h4>
-                                    <ul>
-                                        <li onClick={this.postsClickHandle} className="li-navigation">Posts</li>
-                                        <li onClick={this.usersClickHandle} className="li-navigation">All Users</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <UserInfo img={this.state.user.photoURL} userName={this.state.user.displayName}
+                                postsClickHandle={this.postsClickHandle} usersClickHandle={this.usersClickHandle} />
                             <div className="user-timeline">
                                 <aside className="aside-users">
                                     {this.state.content}
                                 </aside>
                                 {
-                                    this.renderPosts()
+                                    this.connectToDB()
                                 }
                                 <div className="div-post-content">
                                     {this.state.postInput}
-                                    <div className="timeline-allposts">
-                                        <Post user={this.state.user} posts={this.state.posts} />
-                                    </div>
+                                    <Post user={this.state.user} posts={this.state.posts} />
                                 </div>
                             </div>
                         </div>

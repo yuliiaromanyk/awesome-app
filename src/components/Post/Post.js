@@ -18,11 +18,13 @@ export default class Post extends React.Component {
 
   render() {
     return (
-      <ul>
-        {
-          this.renderPosts()
-        }
-      </ul>
+      <div className="timeline-allposts">
+        <ul>
+          {
+            this.renderPosts()
+          }
+        </ul>
+      </div>
     )
   }
 }
